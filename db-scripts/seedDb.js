@@ -1,5 +1,5 @@
 const { Profile, Contract, Job } = require('../src/model');
-
+require('../src/model/associations');
 /* WARNING THIS WILL DROP THE CURRENT DATABASE */
 seed();
 
