@@ -1,0 +1,229 @@
+{
+	"info": {
+		"_postman_id": "328620b8-b33e-4005-8e80-f6fb44019294",
+		"name": "Deel-Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34253342"
+	},
+	"item": [
+		{
+			"name": "get-best-profession",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/best-profession?start=2018-01-01&end=2024-04-30",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"best-profession"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2018-01-01"
+						},
+						{
+							"key": "end",
+							"value": "2024-04-30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-best-clients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/admin/best-clients?start=2018-01-01&end=2024-04-30",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"admin",
+						"best-clients"
+					],
+					"query": [
+						{
+							"key": "start",
+							"value": "2018-01-01"
+						},
+						{
+							"key": "end",
+							"value": "2024-04-30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit amount by ID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/balances/deposit/4",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"balances",
+						"deposit",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get contracts by Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "profile_id",
+						"value": "5",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/contracts/1",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contracts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all contracts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "profile_id",
+						"value": "3",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/contracts/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"contracts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unpaid Jobs",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "profile_id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/jobs/unpaid",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"jobs",
+						"unpaid"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Job Pay by id",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "profile_id",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/jobs/2/pay",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"jobs",
+						"2",
+						"pay"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:3001",
+			"type": "string"
+		}
+	]
+}
