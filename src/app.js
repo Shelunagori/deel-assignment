@@ -211,4 +211,47 @@ app.get('/admin/best-clients', async(req, res) => {
     return res.json(highPayClient);
 });
 
+app.post("/balances/deposit/:userId", async(req, res) => {
+    const { Contract, Job, Profile } = req.app.get("models");
+    const clientId = req.params.userId;
+    const depositAmount = req.body.amount;
+    const depositTransaction = await sequelize.transaction();
+    try {
+        const client = await Profile.findByPk(clientId, { transaction: depositTransaction });
+        const unpaidJobsAmount = await Job.findOne({
+            attributes : [
+                [sequelize.fn("SUM", sequelize.col("price")), "totalPrice"]
+            ],
+            where : {
+                [Op.or]: [{ paid: false }, { paid: null }],
+            },
+            include : [
+                {
+                    model : Contract,
+                    require : true,
+                    where : {
+                        ClientId: clientId,
+                        status : 'in_progress'
+                    }
+                }
+            ],
+            raw: true,
+            group: ["Contract.ClientId"],
+        });
+    
+       const { totalPrice } = unpaidJobsAmount;
+       const depositLimit = totalPrice * 0.25;
+    
+       if(depositAmount > depositLimit) {
+            return res.json(response = `Maximum deposit amount reached. Deposit ${depositAmount} is more than 25% of client ${clientId} total of jobs to pay`);
+       }        
+       await client.increment({ balance: depositAmount }, { transaction: depositTransaction });
+       client.balance += depositAmount;
+       await depositTransaction.commit();
+       return res.json(client);
+    } catch (error) {
+       await depositTransaction.rollback();
+       return res.json(error);
+    }
+});
 module.exports = app;
