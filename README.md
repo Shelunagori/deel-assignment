@@ -96,3 +96,10 @@ It would be great for example if you'd write some unit test / simple frontend de
 When you have finished the assignment, zip your repo (make sure to include .git folder) and send us the zip.
 
 Thank you and good luck! 🙏
+
+## Final Submission 🙏
+
+Thank you for providing me this opportunity. In addition to fulfilling the requirements outlined above, I've made further enhancements to the code as follows:
+
+1. Established a new folder structure.
+2. Written some unit tests for all API endpoints to ensure their functionality.
