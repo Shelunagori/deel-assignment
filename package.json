@@ -13,11 +13,14 @@
   },
   "scripts": {
     "start": "nodemon ./src/app.js",
-    "seed": "node ./db-scripts/seedDb.js"
+    "seed": "node ./db-scripts/seedDb.js",
+    "test": "jest"
   },
   "devDependencies": {
     "concurrently": "^8.0.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4"
   },
   "engines": {
     "node": ">=10.16.3"
