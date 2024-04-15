@@ -129,4 +129,86 @@ app.post("/jobs/:job_id/pay", getProfile, async (req, res) => {
   }
 });
 
+app.get('/admin/best-profession', async(req, res) => {
+    const { Job, Contract, Profile } = req.app.get('models');
+    const { start, end } = req.query;
+    const bestProfession = await Profile.findAll({
+        attributes : [
+            'profession',
+            [sequelize.fn("SUM", sequelize.col("price")), "earned"]
+        ],
+        include:[
+            {
+                model: Contract,
+                as: 'Contractor',
+                required: true,
+                attributes: [],
+                include: [
+                    {
+                        model: Job,
+                        required:true,
+                        attributes: [],
+                        where : {
+                            paymentDate: {
+                                [Op.between]: [start, end]
+                            },
+                            paid : true
+                        }
+                    }
+                ]
+            }
+        ],
+        where : {
+            type : 'contractor'
+        },
+        group : ['profession'],
+        order: [[sequelize.col('earned'), 'DESC']],
+        limit: 1,
+        subQuery: false,
+    });
+    res.json(bestProfession);
+});
+
+app.get('/admin/best-clients', async(req, res) => {
+    const { Job, Contract, Profile } = req.app.get('models');
+    const { start, end, limit } = req.query;
+    const pagination = {
+        limit: limit || 2,
+        offset: 0,
+    };
+    const highPayClient = await Job.findAll({
+        attributes: [
+          [sequelize.col("Contract.Client.id"), "id"],
+          [sequelize.literal("firstName || ' ' || lastName"), "fullName"],
+          [sequelize.fn("sum", sequelize.col("Job.price")), "paid"],
+        ],
+        include: [
+          {
+            model: Contract,
+            as: 'Contract',
+            attributes: [],
+            include: [
+              {
+                model: Profile,
+                as: 'Client',
+                attributes: [],
+              },
+            ],
+          },
+        ],
+        where: {
+          paid: true,
+          paymentDate: {
+            [Op.between]: [start, end],
+          },
+        },
+        group: ["Contract.Client.id"],
+        order: [["id", "ASC"]],
+        raw: true,
+        limit: pagination.limit,
+        offset: pagination.offset,
+    });
+    return res.json(highPayClient);
+});
+
 module.exports = app;
