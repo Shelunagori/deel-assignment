@@ -51,8 +51,8 @@ const payToJob = async ({ job_id, client_id, balance }) => {
         
         if (balance >= amountToBePaid) {
           const paymentTransaction = await sequelize.transaction({
-            isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE,
-            lock: Sequelize.Transaction.LOCK.UPDATE,
+            isolationLevel: sequelize.Transaction.ISOLATION_LEVELS.SERIALIZABLE,
+            lock: sequelize.Transaction.LOCK.UPDATE,
           });
             try {
                 await Promise.all([
